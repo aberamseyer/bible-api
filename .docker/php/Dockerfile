@@ -66,6 +66,8 @@ RUN apk add --no-cache \
   bash \
   shadow
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Copy PHP configuration from builder (includes enabled extensions)
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
