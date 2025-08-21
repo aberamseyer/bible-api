@@ -2,4 +2,4 @@
 
 require_once __DIR__ . "/inc/init.php";
 
-redirect("/sitemap")
+redirect("/sitemap.txt");
