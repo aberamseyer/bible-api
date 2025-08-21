@@ -1,0 +1,31 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    container_name: bibleapi_php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html # full project mounted for PHP
+      - ./data:/var/www/data # SQLite DB or other data (optional)
+    networks:
+      - api_network
+
+  nginx:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    container_name: bibleapi_nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_HOST_PORT:-7001}:80"
+    volumes:
+      - ./public:/var/www/html # only public exposed to Nginx
+    depends_on:
+      - php
+    networks:
+      - api_network
+
+networks:
+  api_network:
+    driver: bridge

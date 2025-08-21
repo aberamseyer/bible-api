@@ -1,0 +1,5 @@
+https://bibleapi.ramseyer.dev/api/book?name={book_name}
+https://bibleapi.ramseyer.dev/api/verse?q={verse_refs}&trans={esv,kjv,niv,asv,rcv,nlt}
+https://bibleapi.ramseyer.dev/api/bible/{book}/{chapter}/{verse}
+
+# word counts are based on the rcv translation
