@@ -1,4 +1,4 @@
-FROM php:8.4.5-fpm-alpine AS builder
+FROM php:8.4.27-fpm-alpine3.23 AS builder
 
 WORKDIR /var/www/html
 
@@ -42,7 +42,7 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Stage 2: Final Image
-FROM php:8.4.5-fpm-alpine
+FROM php:8.4.27-fpm-alpine3.23
 
 ENV TZ=UTC
 ENV PHP_UPLOAD_MAX_FILESIZE=10M
@@ -79,7 +79,8 @@ RUN echo "date.timezone=\${TZ}" > /usr/local/etc/php/conf.d/app-timezone.ini && 
   echo "upload_max_filesize=\${PHP_UPLOAD_MAX_FILESIZE}" >> /usr/local/etc/php/conf.d/app-uploads.ini && \
   echo "post_max_size=\${PHP_POST_MAX_SIZE}" >> /usr/local/etc/php/conf.d/app-uploads.ini && \
   echo "max_input_vars=\${PHP_MAX_INPUT_VARS}" >> /usr/local/etc/php/conf.d/app-vars.ini && \
-  echo "memory_limit=\${PHP_MEMORY_LIMIT}" >> /usr/local/etc/php/conf.d/app-memory.ini
+  echo "memory_limit=\${PHP_MEMORY_LIMIT}" >> /usr/local/etc/php/conf.d/app-memory.ini && \
+  echo "session.upload_progress.enabled=0" > /usr/local/etc/php/conf.d/zz-security.ini
 
 # Copy Composer's vendor directory from builder
 COPY --from=builder /var/www/html/vendor /var/www/html/vendor
